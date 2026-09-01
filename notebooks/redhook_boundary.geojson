@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Red Hook, Brooklyn",
+        "note": "Approximate peninsula boundary. North edge follows Hamilton Ave / Gowanus Expressway; east edge hugs the west bank of the Gowanus Canal / Gowanus Bay; west and south edges run into Buttermilk Channel / Upper Bay (open water, excluded once masked to land elev>0). Edit vertices to refine. CRS: WGS84 (EPSG:4326), lon/lat."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-74.01650, 40.68280],
+            [-74.00900, 40.68080],
+            [-74.00250, 40.67920],
+            [-73.99680, 40.67720],
+            [-73.99580, 40.67380],
+            [-74.00000, 40.67080],
+            [-74.00900, 40.66900],
+            [-74.01750, 40.67120],
+            [-74.01950, 40.67750],
+            [-74.01650, 40.68280]
+          ]
+        ]
+      }
+    }
+  ]
+}
