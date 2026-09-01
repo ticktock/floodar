@@ -118,6 +118,15 @@ def test_ndsm(dem_path, tmp_path):
     assert float(np.ma.median(n)) == pytest.approx(12.0, abs=1e-3)
 
 
+def test_to_cog(dem_path, tmp_path):
+    """to_cog produces a tiled GeoTIFF with overviews."""
+    out = tmp_path / "cog.tif"
+    io.to_cog(dem_path, out, blocksize=64)  # small block so the 200px synthetic gets overviews
+    with rasterio.open(out) as ds:
+        assert ds.is_tiled
+        assert ds.overviews(1), "COG should have overview levels"
+
+
 def test_hillshade(dem_path):
     arr, _ = io.read(dem_path, max_size=None)
     hs = viz.hillshade(arr, cellsize=1.0)

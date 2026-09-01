@@ -7,7 +7,17 @@ https://data.cityofnewyork.us/City-Government/1-foot-Digital-Elevation-Model-DEM
   tiled Cloud-Optimized GeoTIFF with overviews (EPSG:2263, uint16, feet NAVD88).
   `0` = water / outside-city / 0-ft ground (no nodata tag).
 
-## Reproducing the download
+## Getting the data
+
+From the repo root, one command downloads the integer raster and builds the COG here:
+
+```bash
+uv run python scripts/get_data.py
+```
+
+It's idempotent (skips finished steps), needs ~8 GB free during the build, and removes
+the intermediate zip/striped tif afterward (`--keep-intermediate` to retain them). To do
+it by hand instead:
 
 ```bash
 curl -o NYC_DEM_1ft_Int.zip \

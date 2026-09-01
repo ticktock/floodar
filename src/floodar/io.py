@@ -168,6 +168,34 @@ def read(
         return arr, transform
 
 
+def to_cog(
+    src: str | Path,
+    dst: str | Path,
+    *,
+    blocksize: int = 512,
+    compress: str = "DEFLATE",
+    resampling: str = "AVERAGE",
+) -> Path:
+    """Rewrite a raster as a tiled, overview-pyramided Cloud-Optimized GeoTIFF.
+
+    The NYC whole-city DEM ships LZW-*striped* (full-width rows), which is pessimal
+    for AOI windowing — every small read decompresses full-width strips. A tiled COG
+    with overviews makes windowed reads and zoomed-out viz fast. Reads the whole
+    source once, so this takes a few minutes on the citywide raster.
+    """
+    from rasterio.shutil import copy as rio_copy
+
+    with rasterio.open(src) as ds:
+        is_float = ds.dtypes[0].startswith("float")
+    predictor = "FLOATING_POINT" if is_float else "STANDARD"
+    rio_copy(
+        str(src), str(dst), driver="COG",
+        BLOCKSIZE=blocksize, COMPRESS=compress, PREDICTOR=predictor,
+        OVERVIEW_RESAMPLING=resampling, BIGTIFF="IF_SAFER", NUM_THREADS="ALL_CPUS",
+    )
+    return Path(dst)
+
+
 def check_aligned(path_a: str | Path, path_b: str | Path) -> tuple[bool, list[str]]:
     """Check whether two rasters share a grid (needed for nDSM = DSM - DEM).
 

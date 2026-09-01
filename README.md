@@ -24,6 +24,14 @@ uv sync                      # core library + CLI
 uv sync --extra notebooks    # + JupyterLab / folium for the notebook
 ```
 
+## Quickstart (fresh checkout)
+
+```bash
+uv sync --extra notebooks
+uv run python scripts/get_data.py   # download NYC DEM + build the COG into data/ (~8 GB free needed)
+uv run jupyter lab notebooks/        # then open 01_explore.ipynb or 02_redhook.ipynb
+```
+
 ## CLI
 
 ```bash

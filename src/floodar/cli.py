@@ -169,18 +169,8 @@ def cog(
     for AOI windowing — every small read decompresses full-width strips. Converting
     to a tiled COG with overviews makes windowed reads and zoomed-out viz fast.
     """
-    import rasterio
-    from rasterio.shutil import copy as rio_copy
-
-    with rasterio.open(src) as ds:
-        is_float = ds.dtypes[0].startswith("float")
-    predictor = "FLOATING_POINT" if is_float else "STANDARD"
     console.print(f"converting [cyan]{src.name}[/cyan] -> tiled COG (this reads the whole raster)…")
-    rio_copy(
-        str(src), str(out), driver="COG",
-        BLOCKSIZE=blocksize, COMPRESS=compress, PREDICTOR=predictor,
-        OVERVIEW_RESAMPLING=resampling, BIGTIFF="IF_SAFER", NUM_THREADS="ALL_CPUS",
-    )
+    io.to_cog(src, out, blocksize=blocksize, compress=compress, resampling=resampling)
     console.print(f"[green]wrote[/green] {out}")
 
 
